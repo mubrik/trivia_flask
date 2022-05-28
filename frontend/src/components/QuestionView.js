@@ -22,7 +22,7 @@ class QuestionView extends Component {
 
   getQuestions = () => {
     $.ajax({
-      url: `/questions?page=${this.state.page}`, //TODO: update request URL
+      url: `/api/questions?page=${this.state.page}`, //TODO: update request URL
       type: 'GET',
       success: (result) => {
         this.setState({
@@ -65,7 +65,7 @@ class QuestionView extends Component {
 
   getByCategory = (id) => {
     $.ajax({
-      url: `/categories/${id}/questions`, //TODO: update request URL
+      url: `/api/categories/${id}/questions`, //TODO: update request URL
       type: 'GET',
       success: (result) => {
         this.setState({
@@ -84,7 +84,7 @@ class QuestionView extends Component {
 
   submitSearch = (searchTerm) => {
     $.ajax({
-      url: `/questions`, //TODO: update request URL
+      url: `/api/questions/search`, //TODO: update request URL
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
@@ -94,6 +94,7 @@ class QuestionView extends Component {
       },
       crossDomain: true,
       success: (result) => {
+        console.log(result)
         this.setState({
           questions: result.questions,
           totalQuestions: result.total_questions,
@@ -112,7 +113,7 @@ class QuestionView extends Component {
     if (action === 'DELETE') {
       if (window.confirm('are you sure you want to delete the question?')) {
         $.ajax({
-          url: `/questions/${id}`, //TODO: update request URL
+          url: `/api/questions/${id}`, //TODO: update request URL
           type: 'DELETE',
           success: (result) => {
             this.getQuestions();
@@ -158,7 +159,10 @@ class QuestionView extends Component {
         </div>
         <div className='questions-list'>
           <h2>Questions</h2>
-          {this.state.questions.map((q, ind) => (
+          {
+          this.state.questions.length === 0 ? 
+            <p> no questions set for this category</p>:
+          this.state.questions.map((q, ind) => (
             <Question
               key={q.id}
               question={q.question}

@@ -1,6 +1,7 @@
 .vscode
 __pycache__
 venv
+migrations
 
 # OS generated files #
 ######################
@@ -9,6 +10,7 @@ venv
 ._*
 .Spotlight-V100
 .Trashes
+.env
 ehthumbs.db
 Thumbs.db
 env/

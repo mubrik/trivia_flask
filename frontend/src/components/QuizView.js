@@ -16,12 +16,13 @@ class QuizView extends Component {
       currentQuestion: {},
       guess: '',
       forceEnd: false,
+      user: null
     };
   }
 
   componentDidMount() {
     $.ajax({
-      url: `/categories`, //TODO: update request URL
+      url: `/api/categories`, //TODO: update request URL
       type: 'GET',
       success: (result) => {
         this.setState({ categories: result.categories });
@@ -49,7 +50,7 @@ class QuizView extends Component {
     }
 
     $.ajax({
-      url: '/quizzes', //TODO: update request URL
+      url: '/api/quizzes', //TODO: update request URL
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
@@ -127,14 +128,24 @@ class QuizView extends Component {
   }
 
   renderFinalScore() {
+
+    this.handleFinalScoreSubmit()
+
     return (
       <div className='quiz-play-holder'>
         <div className='final-header'>
-          Your Final Score is {this.state.numCorrect}
+          {this.state.user.username} Final Score is {this.state.numCorrect}
         </div>
         <div className='play-again button' onClick={this.restartGame}>
           Play Again?
         </div>
+        {
+          (this.state.user.scores.length > 0 ) ? 
+          <div>
+            Your last score: {this.state.user.scores[this.state.user.scores.length - 1]}
+          </div> :
+          null
+        }
       </div>
     );
   }
@@ -192,7 +203,72 @@ class QuizView extends Component {
     );
   }
 
+  async handleFinalScoreSubmit() {
+
+    const result = await fetch(`/api/users/${this.state.user.id}/score`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        score: this.state.numCorrect
+      })
+    });
+
+    console.log(result);
+    // if (result.ok) {
+    //   const _user = await result.json();
+    //   // this.setState({user: _user.user});
+    //   // console.log(_user);
+    // }
+  }
+
+  async handleUsernameSubmit (event) {
+    event.preventDefault();
+
+    const form = document.getElementById("username-form");
+    const formData = new FormData(form);
+    const _username = formData.get("username")
+
+    const result = await fetch('/api/users', {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: _username})
+    });
+
+    console.log(result);
+    if (result.ok) {
+      const _user = await result.json();
+      console.log(_user);
+      this.setState({user: _user.user});
+    }
+  }
+
+  renderSelectUser() {
+
+    return(
+      <form onSubmit={(e) => this.handleUsernameSubmit(e)} id="username-form" style={{marginTop: "12px", alignItems:"center"}}>
+        <div style={{ display: "flex", alignItems: "center", marginBottom: "4px"}}>
+          <label htmlFor={"username"}> Username:</label>
+          <input type='text' name='username' onChange={this.handleChange} style={{ marginLeft: "4px"}} required/>
+        </div>
+        <input
+          className='show-answer'
+          type='submit'
+          value='Submit'
+        />
+      </form>
+    );
+  }
+
   render() {
+    if (this.state.user === null) {
+      return this.renderSelectUser();
+    }
     return this.state.quizCategory ? this.renderPlay() : this.renderPrePlay();
   }
 }

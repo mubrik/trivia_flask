@@ -8,7 +8,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div className='App-header'>
+      <nav className='App-header'>
         <h1
           onClick={() => {
             this.navTo('');
@@ -16,28 +16,47 @@ class Header extends Component {
         >
           Udacitrivia
         </h1>
-        <h2
+        <div
+          className='nav-link'
           onClick={() => {
             this.navTo('');
           }}
         >
           List
-        </h2>
-        <h2
+        </div>
+        <div
+          className='nav-link'
           onClick={() => {
-            this.navTo('/add');
+            this.navTo('/addQuestion');
           }}
         >
-          Add
-        </h2>
-        <h2
+          Add Question
+        </div>
+        <div
+          className='nav-link'
+          onClick={() => {
+            this.navTo('/addCategory');
+          }}
+        >
+          Add Category
+        </div>
+        <div
+          className='nav-link'
           onClick={() => {
             this.navTo('/play');
           }}
         >
           Play
-        </h2>
-      </div>
+        </div>
+        <div
+          className='nav-link'
+          onClick={() => {
+            this.navTo('/scores');
+          }}
+        >
+          Scores
+        </div>
+      </nav>
     );
   }
 }

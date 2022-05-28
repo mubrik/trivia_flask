@@ -33,7 +33,7 @@ class Question extends Component {
           />
         </div>
         <div
-          className='show-answer button'
+          className='show-answer'
           onClick={() => this.flipVisibility()}
         >
           {this.state.visibleAnswer ? 'Hide' : 'Show'} Answer

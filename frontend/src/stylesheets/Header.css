@@ -1,0 +1,14 @@
+.App-header > .nav-link {
+  cursor: pointer;
+  box-shadow: 2px 2px 3px 0px #9abce97a;
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.nav-link:hover {
+  transform: scale(1.1);
+  background-color: aliceblue;
+  color: black;
+}
