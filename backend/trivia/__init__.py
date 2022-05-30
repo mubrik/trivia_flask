@@ -26,6 +26,9 @@ def create_app(test_config=None, database_uri=None):
     
   app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
   db = SQLAlchemy(app)
+  # import models before creating db so new tables can be created
+  from . import models
+  # now create
   db.create_all() # leaving this as i havent tweaked the sql script to create user table for now
   cors = CORS(app, resources={"r*/api/*":{"origins":"*"}})
   migrate = Migrate(app, db)

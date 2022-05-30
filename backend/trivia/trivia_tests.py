@@ -122,11 +122,16 @@ class ExtendedTestCase(unittest.TestCase):
     self.new_category = {
       "type": "Chemistry",
     }
-    # tests creating a category
+    # create the category first
+    result_new = self.client().post('/api/categories', json=self.new_category)
+    id = result_new.get_json()['category']['id']
+    # try creating the same categgory
     result = self.client().post('/api/categories', json=self.new_category)
     # checks, code and category in returned object
     self.assertEqual(result.status_code, 400)
     self.assertEqual(result.get_json()['message'], "That Category already exists")
+    # delete it for continuity
+    self.client().delete(f'/api/categories/{id}/delete')
     
   def test_search_questions(self):
     self.search_query = {

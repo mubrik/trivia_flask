@@ -127,8 +127,7 @@ def create_category():
   new_category = Category(category_type)
   # add
   try:
-    new_cat = new_category.insert()
-    returned_data = new_cat.format()
+    new_cat = new_category.insert().format()
   except Exception as error:
     # db error most likely, not sure what to tell the user...
     db.session.rollback()
@@ -139,7 +138,7 @@ def create_category():
     
   return jsonify({
     "success": True,
-    "category": returned_data
+    "category": new_cat
   }), 201
   
 # creating this mainly so my tests can all run smoothly with the same category

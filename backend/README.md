@@ -36,12 +36,22 @@ Populate the database using the `trivia.psql` file provided. From the `backend` 
 ```bash
 psql trivia < trivia.psql
 ```
+If you will be running tests then go ahead and create a test db as well
+To deploy the tests, run
+
+```bash
+dropdb trivia_test
+createdb trivia_test
+psql trivia_test < trivia.psql
+```
+
 #### Set up your Enviroment Variables
 - create a .env file in the backend root folder `./backend` with your database variables, example:
 ``` bash
 DB_URI='postgresql://username:password@localhost:5432/trivia'
 TEST_DB_URI='postgresql://username:password@localhost:5432/trivia_test'
 ```
+Please make sure the database name matches which you created above
 
 ### Run the Server
 
@@ -223,11 +233,11 @@ python run.py
 
 ## Testing
 
-To deploy the tests, run
+To deploy the tests, run in the `./backend/` directory
 
 ```bash
 dropdb trivia_test
 createdb trivia_test
 psql trivia_test < trivia.psql
-python test_flaskr.py
+python run_test.py
 ```
