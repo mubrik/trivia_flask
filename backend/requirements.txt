@@ -1,5 +1,5 @@
 aniso8601==6.0.0
-Click==7.0
+Click>=8.0
 # upgrading from 1.0.3 to 2.1.2 to fix bug from jinja2 import Markup, escape
 Flask==2.1.2
 # upgrading from 3.0.7 to 3.0.10 to fix bug module 'collections' has no attribute 'Iterable'
