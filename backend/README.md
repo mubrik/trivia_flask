@@ -129,8 +129,9 @@ python run.py
   "difficulty": 1
 }
 ```
-- Returns: An object with 1 key, 
+- Returns: An object with the question instance
   1. `success` boolean value
+  2. `question` Question
   
 `DELETE '/api/questions/<question_id>'`
 

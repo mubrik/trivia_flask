@@ -19,9 +19,19 @@
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  max-width: 60%;
+  max-width: 50%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 8px;
+  border: 1px solid #00000059;
+  border-radius: 8px;
+  padding: 2px;
+  box-shadow: 1px 2px 4px 0px #3a3a3a70;
+}
+
+.categories-list > ul > li:hover {
+  background-color: #526cdf96;
+  color: white;
 }
 
 .categories-list > form {
@@ -74,15 +84,20 @@
   color: black;
   padding: 3px 5px;
   margin-left: 0px !important;
-  border: 1px solid #0073ff50;
+  border: 1px solid #4f9af550;
   border-radius: 5px;
   cursor: pointer;
   min-width: 80px;
+  min-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .show-answer:hover {
   background-color: rgba(40, 102, 236, 0.678);
   color: rgb(255, 255, 255);
+  transform: scale(1.1);
 }
 
 span.page-num {

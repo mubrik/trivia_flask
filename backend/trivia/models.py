@@ -23,9 +23,11 @@ class Question(db.Model):
   def insert(self):
     db.session.add(self)
     db.session.commit()
+    return self
 
   def update(self):
     db.session.commit()
+    return self
 
   def delete(self):
     db.session.delete(self)

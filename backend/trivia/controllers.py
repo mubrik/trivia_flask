@@ -8,7 +8,6 @@ from .models import Category, Question, User
 # questions pagination
 QUESTIONS_PER_PAGE = 10
 
-
 @app.after_request
 def after(response):
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
@@ -60,7 +59,7 @@ def get_paginated_questions():
       "questions": [question.format() for question in questions],
       "categories": questions_categories,
       "total_questions": total_questions,
-      "current_category": 'No idea yet', # current of? frontend code makes no use of this except for state value
+      "current_category": 'Science', # current of? frontend code makes no use of this except for state valueNo idea yet
     }
   )
   
@@ -76,7 +75,7 @@ def create_question():
   # make instance
   try:
     question_obj = Question(**request_data)
-    question_obj.insert()
+    question = question_obj.insert().format()
   except Exception as e:
     abort(400)
   finally:
@@ -84,8 +83,31 @@ def create_question():
   
   return jsonify({
     "success": True,
+    "question": question,
   }), 201
   
+@app.route('/api/questions/<int:question_id>', methods=["DELETE"])
+def delete_question(question_id: int):
+  # get question
+  question: Question | None = Question.query.get(question_id)
+  
+  if question is None:
+    abort(404, "Item not found")
+  
+  data_id = question.id
+  try:
+    question.delete()
+  except:
+    # change this to db error later
+    abort(404)
+  finally:
+    db.session.close()
+    
+  return jsonify({
+    "success": True,
+    "id": data_id
+  }), 200
+
 @app.route('/api/categories', methods=['POST'])
 def create_category():
   # vars
@@ -120,27 +142,27 @@ def create_category():
     "category": returned_data
   }), 201
   
-@app.route('/api/questions/<int:question_id>', methods=["DELETE"])
-def delete_question(question_id: int):
-  # get question
-  question: Question | None = Question.query.get(question_id)
+# creating this mainly so my tests can all run smoothly with the same category
+@app.route('/api/categories/<int:category_id>/delete', methods=['DELETE'])
+def delete_category(category_id):
+  # get category if exist
+  category: Category|None = Category.query.get(category_id)
+  print(category)
   
-  if question is None:
-    abort(404, "Item not found")
+  if category is None:
+    # error
+    abort(404, "Category does not exist")
   
-  data_id = question.id
   try:
-    question.delete()
-  except:
-    # change this to db error later
-    abort(404)
+    category.delete()
+  except Exception as error:
+    print(error)
+    db.session.rollback()
+    abort(503, "Error deleting category")
   finally:
     db.session.close()
     
-  return jsonify({
-    "success": True,
-    "id": data_id
-  }), 200
+  return jsonify({"success": True})
   
 @app.route('/api/questions/search', methods=['POST'])
 def search_questions():
@@ -272,7 +294,7 @@ def create_user():
   return jsonify({
     "success": True,
     "user": return_user
-  })
+  }), 201
   
 @app.route('/api/users/<int:user_id>/score', methods=['POST'])
 def add_user_score(user_id):
@@ -303,82 +325,27 @@ def add_user_score(user_id):
     "user": return_user
   })
 
-
-"""
-@TODO:
-Create an endpoint to handle GET requests
-for all available categories.
-"""
-
-"""
-@TODO:
-Create an endpoint to handle GET requests for questions,
-including pagination (every 10 questions).
-This endpoint should return a list of questions,
-number of total questions, current category, categories.
-
-TEST: At this point, when you start the application
-you should see questions and categories generated,
-ten questions per page and pagination at the bottom of the screen for three pages.
-Clicking on the page numbers should update the questions.
-"""
-
-"""
-@TODO:
-Create an endpoint to DELETE question using a question ID.
-
-TEST: When you click the trash icon next to a question, the question will be removed.
-This removal will persist in the database and when you refresh the page.
-"""
-
-"""
-@TODO:
-Create an endpoint to POST a new question,
-which will require the question and answer text,
-category, and difficulty score.
-
-TEST: When you submit a question on the "Add" tab,
-the form will clear and the question will appear at the end of the last page
-of the questions list in the "List" tab.
-"""
-
-"""
-@TODO:
-Create a POST endpoint to get questions based on a search term.
-It should return any questions for whom the search term
-is a substring of the question.
-
-TEST: Search by any phrase. The questions list will update to include
-only question that include that string within their question.
-Try using the word "title" to start.
-"""
-
-"""
-@TODO:
-Create a GET endpoint to get questions based on category.
-
-TEST: In the "List" tab / main screen, clicking on one of the
-categories in the left column will cause only questions of that
-category to be shown.
-"""
-
-"""
-@TODO:
-Create a POST endpoint to get questions to play the quiz.
-This endpoint should take category and previous question parameters
-and return a random questions within the given category,
-if provided, and that is not one of the previous questions.
-
-TEST: In the "Play" tab, after a user selects "All" or a category,
-one question at a time is displayed, the user is allowed to answer
-and shown whether they were correct or not.
-"""
-
-"""
-@TODO:
-Create error handlers for all expected errors
-including 404 and 422.
-"""
+# creating this mainly so my tests can all run smoothly with the same user
+@app.route('/api/users/<int:user_id>/delete', methods=['DELETE'])
+def delete_user(user_id):
+  # get user if exist
+  user: User|None = User.query.get(user_id)
+  print(user)
+  
+  if user is None:
+    # error
+    abort(404, "User does not exist")
+  
+  try:
+    user.delete()
+  except Exception as error:
+    print(error)
+    db.session.rollback()
+    abort(503, "Error deleting user")
+  finally:
+    db.session.close()
+    
+  return jsonify({"success": True})
 
 @app.errorhandler(400)
 def handle_400(error):
