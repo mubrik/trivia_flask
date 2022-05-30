@@ -28,28 +28,28 @@ pip install -r requirements.txt
 With Postgres running, create a `trivia` database:
 
 ```bash
-createdb trivia
+createdb database_name
 ```
 
 Populate the database using the `trivia.psql` file provided. From the `backend` folder in terminal run:
 
 ```bash
-psql trivia < trivia.psql
+psql database_name < trivia.psql
 ```
 If you will be running tests then go ahead and create a test db as well
 To deploy the tests, run
 
 ```bash
-dropdb trivia_test
-createdb trivia_test
-psql trivia_test < trivia.psql
+dropdb database_name_test
+createdb database_name_test
+psql database_name_test < trivia.psql
 ```
 
 #### Set up your Enviroment Variables
-- create a .env file in the backend root folder `./backend` with your database variables, example:
+- create a .env file in the backend root folder `./backend` with the following database variables, example:
 ``` bash
-DB_URI='postgresql://username:password@localhost:5432/trivia'
-TEST_DB_URI='postgresql://username:password@localhost:5432/trivia_test'
+DB_URI='postgresql://username:password@localhost:5432/database_name'
+TEST_DB_URI='postgresql://username:password@localhost:5432/database_name_test'
 ```
 Please make sure the database name matches which you created above
 
@@ -61,6 +61,10 @@ To run the server, execute:
 
 ```bash
 python run.py
+```
+To run backend tests, execute:
+```bash
+python run_test.py
 ```
 
 ### Documentation
@@ -77,7 +81,7 @@ python run.py
 ```
 
 `Categories object'`
-- Instance showing the key value pair of a `Question`
+- Instance showing the key value pair of a `Categories`
 ```json
 {
   "1": "Science",

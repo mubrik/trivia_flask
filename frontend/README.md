@@ -53,19 +53,13 @@ Currently, when a user plays the game they play up to five questions of the chos
 
 You can optionally update this game play to increase the number of questions or whatever other game mechanics you decide. Make sure to specify the new mechanics of the game in the README of the repo you submit so the reviewers are aware that the behavior is correct.
 
-> **Spoiler Alert:** If needed, there are details below regarding the expected endpoints and behavior. But, ONLY look at them if necessary. Give yourself the opportunity to practice understanding code first!
-
 ---
 
----
 
-## DO NOT PROCEED: ENDPOINT SPOILERS
-
-> Only read the below to confirm your notes regarding the expected API endpoint behavior based on reading the frontend codebase.
 
 ### Expected endpoints and behaviors
 
-`GET '/categories'`
+`GET '/api/categories'`
 
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
@@ -86,7 +80,7 @@ You can optionally update this game play to increase the number of questions or 
 
 ---
 
-`GET '/questions?page=${integer}'`
+`GET '/api/questions?page=${integer}'`
 
 - Fetches a paginated set of questions, a total number of questions, all categories and current category string.
 - Request Arguments: `page` - integer
@@ -118,7 +112,7 @@ You can optionally update this game play to increase the number of questions or 
 
 ---
 
-`GET '/categories/${id}/questions'`
+`GET '/api/categories/${id}/questions'`
 
 - Fetches questions for a cateogry specified by id request argument
 - Request Arguments: `id` - integer
@@ -142,7 +136,7 @@ You can optionally update this game play to increase the number of questions or 
 
 ---
 
-`DELETE '/questions/${id}'`
+`DELETE '/api/questions/${id}'`
 
 - Deletes a specified question using the id of the question
 - Request Arguments: `id` - integer
@@ -150,7 +144,7 @@ You can optionally update this game play to increase the number of questions or 
 
 ---
 
-`POST '/quizzes'`
+`POST '/api/quizzes'`
 
 - Sends a post request in order to get the next question
 - Request Body:
@@ -178,7 +172,7 @@ You can optionally update this game play to increase the number of questions or 
 
 ---
 
-`POST '/questions'`
+`POST '/api/questions'`
 
 - Sends a post request in order to add a new question
 - Request Body:
@@ -196,7 +190,7 @@ You can optionally update this game play to increase the number of questions or 
 
 ---
 
-`POST '/questions'`
+`POST '/api/questions'`
 
 - Sends a post request in order to search for a specific question by search term
 - Request Body:

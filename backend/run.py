@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 # load env variables
 load_dotenv()
-
+# use .env or computer environment
 database_uri = os.environ.get('DB_URI')
 
 # create app db

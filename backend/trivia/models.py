@@ -1,3 +1,6 @@
+'''
+  holds the models of app
+'''
 from sqlalchemy import Column, String, Integer, ForeignKey, PickleType
 from sqlalchemy.orm import relationship, backref
 from trivia import db

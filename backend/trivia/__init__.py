@@ -1,5 +1,5 @@
 '''
-  holds setup init object and route handlers,
+  holds setup init function and exports app,db
 '''
 from flask import Flask
 from flask_cors import CORS

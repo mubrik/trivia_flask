@@ -1,3 +1,6 @@
+'''
+  holds route handlers,
+'''
 from typing import List, Dict
 from flask import request, abort, jsonify
 from sqlalchemy import func
@@ -10,6 +13,7 @@ QUESTIONS_PER_PAGE = 10
 
 @app.after_request
 def after(response):
+  # add to headers after controllers
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
   response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE,OPTIONS')
   return response
@@ -24,6 +28,14 @@ def get_all_categories():
   
   if categories_length == 0:
     abort(404)
+    # id rather return gracefully but leaving abort here for now
+    # return jsonify(
+    #   {
+    #     "success": True,
+    #     "categories": [],
+    #     "total_categories": 0,
+    #   }
+    # )
   
   return jsonify(
     {

@@ -18,9 +18,9 @@ class ExtendedTestCase(unittest.TestCase):
     with self.app.app_context():
       # self.db = SQLAlchemy()
       # self.db.init_app(self.app)
-      self.db = db
+      self.db = db # use db instance from trivia instead
       # create all tables
-      self.db.create_all()
+      self.db.create_all() # this function is already called in trivia but leaving here cause might be dependent on for test
   
   def tearDown(self):
     """Executed after reach test"""
