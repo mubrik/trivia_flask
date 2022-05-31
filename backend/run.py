@@ -14,6 +14,7 @@ database_uri = os.environ.get('DB_URI')
 app, db = create_app(database_uri=database_uri)
 
 # import controllers to allow routes assignment
+# importing late to allow global app creation
 from trivia import controllers
 
 if __name__ == '__main__':
