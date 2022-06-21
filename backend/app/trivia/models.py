@@ -1,15 +1,16 @@
 '''
-  holds the models of app
+  holds the models of trivia module
 '''
-from sqlalchemy import Column, String, Integer, ForeignKey, PickleType
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship, backref
-from trivia import db
+from app import db
 
 
 class Question(db.Model):
   """
   Question
-
+  Returns:
+    Question: a SqlAlchemy Model class
   """
   __tablename__ = 'questions'
 
@@ -40,18 +41,19 @@ class Question(db.Model):
 
   def format(self):
     return {
-        'id': self.id,
-        'question': self.question,
-        'answer': self.answer,
-        'category': self.category,
-        'difficulty': self.difficulty
+      'id': self.id,
+      'question': self.question,
+      'answer': self.answer,
+      'category': self.category,
+      'difficulty': self.difficulty
     }
 
 
 class Category(db.Model):
   """
   Category
-
+  Returns:
+    category: a SqlAlchemy Model class
   """
   __tablename__ = 'categories'
 
@@ -78,43 +80,7 @@ class Category(db.Model):
 
   def format(self):
     return {
-        'id': self.id,
-        'type': self.type
+      'id': self.id,
+      'type': self.type
     }
 
-
-class User(db.Model):
-  """_summary_
-    User class
-  Returns:
-      User: a SqlAlchemy Model class
-  """
-  __tablename__ = 'users'
-
-  id = Column(Integer, primary_key=True)
-  username = Column(String, unique=True)
-  # should be a seperate class so store questions but...this will do
-  scores = Column(PickleType, default=[], nullable=False)
-
-  def __init__(self, username):
-    self.username = username
-
-  def insert(self):
-    db.session.add(self)
-    db.session.commit()
-    return self
-
-  def update(self):
-    db.session.commit()
-    return self
-
-  def delete(self):
-    db.session.delete(self)
-    db.session.commit()
-
-  def format(self):
-    return {
-        'id': self.id,
-        'username': self.username,
-        'scores': self.scores
-    }
