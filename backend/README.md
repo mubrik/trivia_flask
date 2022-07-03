@@ -22,29 +22,34 @@ pip install -r requirements.txt
 
 - [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross-origin requests from our frontend server.
 
-- [PostgreSQL](https://www.postgresql.org/download/) is the databse type we will be using for this app
+- [PostgreSQL](https://www.postgresql.org/download/) is the database type we will be using for this app
 
 ### Set up the Database
 
-With Postgres running, create a `trivia` database:
+With Postgres running, create a database:
 
 ```bash
 createdb database_name
 ```
 
-Populate the database using the `trivia.psql` file provided. From the `backend` folder in terminal run:
+Optional: Populate the database using the `trivia.psql` file provided. From the `backend` folder in terminal run:
 
 ```bash
 psql database_name < trivia.psql
+```
+
+or
+
+```cmd
+psql.exe -U postgres_username -d database_name -f trivia.psql
 ```
 
 If you will be running tests then go ahead and create a test db as well
 To deploy the tests, run
 
 ```bash
-dropdb database_name_test
-createdb database_name_test
-psql database_name_test < trivia.psql
+dropdb test_database_name
+createdb test_database_name_test
 ```
 
 #### Set up your Enviroment Variables
@@ -54,6 +59,7 @@ psql database_name_test < trivia.psql
 ```bash
 DB_URI='postgresql://username:password@localhost:5432/database_name'
 TEST_DB_URI='postgresql://username:password@localhost:5432/database_name_test'
+FLASK_RUN_MODE=development # or testing to run tests
 ```
 
 Please make sure the database name matches which you created above
@@ -62,19 +68,19 @@ Please make sure the database name matches which you created above
 
 From within the `./backend` directory first ensure you are working using your created virtual environment.
 
-To run the server, execute:
+To run the server, make sure `FLASK_RUN_MODE=development` in your .env file then run:
 
 ```bash
-python run.py
+flask run
 ```
 
-To run backend tests, execute:
+To run tests, make sure `FLASK_RUN_MODE=testing` in your .env file then run:
 
 ```bash
-python run_test.py
+flask run
 ```
 
-### Documentation
+### Endpoint Documentation
 
 `Question object'`
 
@@ -252,15 +258,4 @@ python run_test.py
   "message": "Missing Field: Answer",
   "error": 405
 }
-```
-
-## Testing
-
-To deploy the tests, in the `./backend/` directory run:
-
-```bash
-dropdb trivia_test
-createdb trivia_test
-psql trivia_test < trivia.psql
-python run_test.py
 ```

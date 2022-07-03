@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import '../stylesheets/Header.css';
+import React from 'react';
 // material
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,33 +8,30 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+// custom
+import BaseNavButton from './BaseNavButton';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const links = [
+  { name: 'Questions', url: '/' },
+  { name: 'Play Game', url: '/play' },
+  { name: 'Add Question', url: '/addQuestion' },
+  { name: 'Add Category', url: '/addCategory' },
+  { name: 'Scores', url: '/scores' },
+];
 
 const MainNavBar = () => {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
@@ -90,9 +86,9 @@ const MainNavBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {links.map((page) => (
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -114,48 +110,16 @@ const MainNavBar = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Udacitrivia
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+            {links.map((page, index) => (
+              <BaseNavButton navTo={page.url} navText={page.name} key={page.name} sx={{ my: 2, color: 'white', display: 'block' }}/>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            <Button color="inherit">Login</Button>
           </Box>
         </Toolbar>
       </Container>
@@ -163,64 +127,4 @@ const MainNavBar = () => {
   );
 };
 
-class Header extends Component {
-  navTo(uri) {
-    window.location.href = window.location.origin + uri;
-  }
-
-  render() {
-    return (
-      <nav className='App-header'>
-        <h1
-          onClick={() => {
-            this.navTo('');
-          }}
-        >
-          Udacitrivia
-        </h1>
-        <div
-          className='nav-link'
-          onClick={() => {
-            this.navTo('');
-          }}
-        >
-          List
-        </div>
-        <div
-          className='nav-link'
-          onClick={() => {
-            this.navTo('/addQuestion');
-          }}
-        >
-          Add Question
-        </div>
-        <div
-          className='nav-link'
-          onClick={() => {
-            this.navTo('/addCategory');
-          }}
-        >
-          Add Category
-        </div>
-        <div
-          className='nav-link'
-          onClick={() => {
-            this.navTo('/play');
-          }}
-        >
-          Play
-        </div>
-        <div
-          className='nav-link'
-          onClick={() => {
-            this.navTo('/scores');
-          }}
-        >
-          Scores
-        </div>
-      </nav>
-    );
-  }
-}
-
-export default Header;
+export default MainNavBar;

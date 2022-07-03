@@ -1,10 +1,16 @@
 '''
   holds the models of trivia module
 '''
+from unicodedata import category
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from app import db
 
+# table for Many-to-Many relationship between scores and questions
+score_questions = db.Table('scores_questions',
+  db.Column('score_id', Integer, ForeignKey('scores.id'), primary_key=True),
+  db.Column('question_id', Integer, ForeignKey('questions.id'), primary_key=True)
+)
 
 class Question(db.Model):
   """
@@ -83,4 +89,19 @@ class Category(db.Model):
       'id': self.id,
       'type': self.type
     }
+
+
+class Score(db.Model):
+  """
+  Score
+  Returns:
+    score: a SqlAlchemy Model class
+  """
+  __tablename__ = 'scores'
+
+  id = Column(Integer, primary_key=True)
+  score = Column(Integer)
+  questions = relationship('Question', secondary=score_questions, lazy='joined')
+  user = Column(Integer, ForeignKey('users.id'), nullable=False)
+  # category = Column(Integer, ForeignKey('categories.id'), nullable=False)
 

@@ -3,10 +3,11 @@
 '''
 from typing import List, Dict
 from flask import request, abort, jsonify, Blueprint
+from flask_jwt_extended import current_user, jwt_required
 from sqlalchemy import func
 from app import db
 # models
-from .models import Question, Category
+from .models import Question, Category, Score
 
 # questions pagination
 QUESTIONS_PER_PAGE = 10
@@ -244,6 +245,32 @@ def get_play_next_question():
     {
       "success": True,
       "question": question.format() if question is not None else False,
+    }
+  )
+  
+@trivia_bp.route('/quizzes/savescore', methods=['POST'])
+@jwt_required()
+def save_scores():
+  request_data: Dict|None = request.get_json()
+  if not request_data:
+    abort(400, 'Invalid request')
+  score: int|None = request_data['score']
+  questions: int|None = request_data['questions']
+  if score is None:
+    abort(400, 'Invalid request')
+  user_id = current_user.id
+  new_score = Score(user=user_id, score=score, questions=questions)
+  try:
+    new_score.insert()
+  except Exception as error:
+    print(error)
+    abort(503, "System busy, Cant process request")
+  finally:
+    db.session.close()
+  return jsonify(
+    {
+      "success": True,
+      "score": score,
     }
   )
   

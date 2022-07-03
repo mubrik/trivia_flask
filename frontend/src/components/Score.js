@@ -25,7 +25,7 @@ const notificationStyles = {
   width: "60%"
 }
 
-export default () => {
+const Score = () => {
 
   const [user, setUser] = React.useState(null);
   const [msg, setMsg] = React.useState(false);
@@ -101,3 +101,5 @@ export default () => {
     </div>
   );
 };
+
+export default Score;

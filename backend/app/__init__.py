@@ -17,6 +17,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
+from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
 
 # load env
@@ -35,6 +37,8 @@ if RUN_MODE == 'development':
 elif RUN_MODE == 'testing':
   print('testing mode')
   app.config.from_object('configs.testing')
+else:
+  raise NameError('unknown run mode, add FLASK_RUN_MODE to your env')
 
 # Define the database object
 db = SQLAlchemy(app)
@@ -42,6 +46,10 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 # setup cors for api routes and specific origin
 cors = CORS(app, resources={r"/api/*": {"CORS_ORIGINS": "http://127.0.0.1:3000/"}})
+# jwt manager
+jwt_manager = JWTManager(app)
+# bcrypt
+flask_bcrypt = Bcrypt(app)
 
 # Import a module / component using its blueprint handler variable
 from .user.controllers import user_bp as user_blueprint

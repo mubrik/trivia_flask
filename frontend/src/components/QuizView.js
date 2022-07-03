@@ -212,7 +212,9 @@ class QuizView extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        score: this.state.numCorrect
+        score: this.state.numCorrect,
+        questions: this.state.previousQuestions,
+        category: this.state.quizCategory,
       })
     });
 

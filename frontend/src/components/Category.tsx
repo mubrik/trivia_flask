@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 
 
-const mainDivStyles = {
+const mainDivStyles: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -25,19 +25,19 @@ const notificationStyles = {
   width: "60%"
 }
 
-export default () => {
+const Category = () => {
 
   const [category, setCategory] = React.useState("");
   const [msg, setMsg] = React.useState(null);
 
-  const handleTextChange = (event) => {
+  const handleTextChange = (event: React.BaseSyntheticEvent) => {
 
     const newValue = event.target.value;
 
     setCategory(newValue);
   };
 
-  const handleSubmitClick = (event) => {
+  const handleSubmitClick = (event: React.BaseSyntheticEvent) => {
 
     event.preventDefault();
 
@@ -62,7 +62,7 @@ export default () => {
     })
     .catch(error => {
       // too lazy to design border color change for notification, just alert error
-      error.json().then(err => {
+      error.json().then((err: any) => {
         if ("message" in err) {
           alert(err.mesage);
           return
@@ -92,3 +92,5 @@ export default () => {
     </div>
   );
 };
+
+export default Category;

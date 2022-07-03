@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
-import '../stylesheets/FormView.css';
 
 class FormView extends Component {
   constructor(props) {

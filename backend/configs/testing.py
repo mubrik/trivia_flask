@@ -32,4 +32,12 @@ CSRF_ENABLED = True
 CSRF_SESSION_KEY = "secret"
 
 # Secret key for signing cookies, not secure.. testing only
-SECRET_KEY = os.urandom(32)
+SECRET_KEY = env.get('SECRET_KEY', os.urandom(32))
+
+# flask-jwt
+JWT_SECRET_KEY = env.get('JWT_SECRET_KEY', os.urandom(32))
+JWT_TOKEN_LOCATION = ["headers", "cookies"]
+JWT_COOKIE_SECURE = False if DEBUG else True # only send cookies over https, true for production
+
+# bcrypt
+BCRYPT_HANDLE_LONG_PASSWORDS = True
